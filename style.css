@@ -1,105 +1,31 @@
 body {
-    background: #DA7E29;
-    height: 100%;
-    margin-top: 50px;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(90deg, var(--orange) 0%,var(--light-green) 100%);
 }
 
-/* Estilos para el botón superior izquierdo */
-.boton-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 10px;
-    background-color: #009688;
-    color: #fff;
-    border: none;
-    border-radius: 45px;
-    font-size: 16px;
+#main-body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Estilos para el contenedor de los espacios de los jugadores */
-.players-container {
-    text-align: center;
-}
-/* Estilos para los nombres de los jugadores y las casillas de puntaje */
-.player {
-    display: inline-block;
-    margin: 0 20px;
-    font-size: 24px;
-    text-align: center;
-}
-
-.score {
-    margin: 10px 20px;
-    width: 70px;
-    height: 50px;
-    background-color: #eee;
-    border: 1px solid black;
-    border-radius: 5px;
-    font-size: 24px;
-    text-align: center;
-    line-height: 50px;
+#main-container {
+    width: 20%;
+    height: 70%;
+    border: 1px solid var(--dark);
+    background: var(--orange);
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.52);
 }
 
-/* Estilos para el texto del jugador y el cronómetro */
-#player-info {
-    text-align: center;
-    font-size: 28px;
-    margin-top: 50px;
-}
-
-#timer {
-    font-size: 52px;
-    margin-top: 10px;
-}
-
-/* Estilos para el contenedor de los espacios de la carta */
-.card-container {
-    text-align: center;
-}
-
-/* Estilos para los espacios de la carta */
-.card-space {
-    display: inline-block;
-    width: 100px;
-    height: 150px;
-    background-color: #eee;
-    border: 1px solid black;
-    border-radius: 5px;
-    text-align: center;
-    margin: 20px;
-}
-
-/* Estilos para el contenedor de los espacios de la carta */
-.butons-container {
-    text-align: center;
-}
-
-/* Estilos para los botones inferiores */
-#boton-correct {
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    padding: 10px;
-}
-
-#boton-pass {
-    background-color: #ccc;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    padding: 10px;
-    margin: 10px 40px;
-}
-
-#boton-incorrect {
-    background-color: #F44336;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    padding: 10px;
+#title-game{
+    color: var(--secondary);
 }
