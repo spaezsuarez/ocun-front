@@ -16,23 +16,36 @@ async function obtainName(position, asignation) {
         inputLabel: 'Nombre:',
         showCancelButton: false,
         allowOutsideClick: false,
+        confirmButtonColor: '#4d908e',
         inputValidator: (value) => {
             if (!value) {
-                return 'El nombre no puede ser vacio'
+                return 'El nombre no puede ser vacio';
             }
         }
-    })
+    });
     if (nickName !== undefined) {
         players[asignation] = {
             "name": nickName,
-            "score": 0
+            "score": 0,
+            "correctQuestions": 0
         };
     }
 }
 
 function savePlayers() {
-    sessionStorage.setItem('players', JSON.stringify(players));
-    window.location.replace("pages/main.html");
+    let isValidPlayersData = true;
+    for (let currentPlayer in players) {
+        if (players[currentPlayer] === null) {
+            isValidPlayersData = false;
+            break;
+        }
+    }
+    if (isValidPlayersData) {
+        sessionStorage.setItem('players', JSON.stringify(players));
+        window.location.replace("pages/main.html");
+    }else{
+        Swal.fire('Error','Asegurese de completar la información de los jugadores','error');
+    }
 }
 
 // Uso de las funciones en la logica del boton para iniciar el juego
