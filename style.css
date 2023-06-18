@@ -1,7 +1,10 @@
 body {
     padding: 0;
     margin: 0;
-    background: linear-gradient(90deg, var(--orange) 0%,var(--light-green) 100%);
+    /*background: linear-gradient(90deg, var(--orange) 0%,var(--light-green) 100%);*/
+    /*background: linear-gradient(to top left, #C4AC33 0%, #2A0F80 100%);*/
+    /*background: linear-gradient(to top left, #90BE6D 0%, #43AA8B 100%);*/
+    background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);
 }
 
 #main-body {
@@ -18,7 +21,7 @@ body {
     height: 70%;
     border: 1px solid var(--dark);
     background: var(--orange);
-    border-radius: 50px;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -27,5 +30,46 @@ body {
 }
 
 #title-game{
-    color: var(--secondary);
+    width: 100%;
 }
+
+.button-container {
+    width: 50%;
+    height: 8%;
+}
+
+#btn-start {
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    background-color: var(--primary);
+    color: white;
+    font-size: large;
+    cursor: pointer;
+    border: none;
+    transition: 500ms;
+}
+
+#btn-start:hover {
+    background-color: var(--light-green);
+    color: var(--danger);
+    transform: scale(1.1);
+}
+
+@media (max-width: 400px) {
+    #main-container {
+        width: 70%;
+    }
+
+    #title-game{
+        width: 100%;
+        height: 40%;
+    }
+}
+
+@media (min-width: 401px) and (max-width: 1026px) {
+    #main-container {
+        width: 40%;
+    }
+}
+  

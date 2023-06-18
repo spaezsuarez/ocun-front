@@ -1,38 +1,45 @@
+//Inicialización de objetos a utilizar
 const btnStart = document.getElementById('btn-start');
 const players = {
-    "firstPlyer":null,
-    "secondPlayer":null,
-    "thirdPlayer":null,
-    "fourthPlayer":null
+    "firstPlyer": null,
+    "secondPlayer": null,
+    "thirdPlayer": null,
+    "fourthPlayer": null
 };
+const timeErrorLoading = 1000;
 
-async function obtainName(position,asignation) {
-    const { value: namePlayer } = await Swal.fire({
+//Declaración de funciones
+async function obtainName(position, asignation) {
+    const { value: nickName } = await Swal.fire({
         title: `Ingrese nombre de jugador ${position}`,
         input: 'text',
         inputLabel: 'Nombre:',
         showCancelButton: false,
+        allowOutsideClick: false,
         inputValidator: (value) => {
             if (!value) {
                 return 'El nombre no puede ser vacio'
             }
         }
     })
-    if (namePlayer)
-        players[asignation] = namePlayer;
-
-    console.table(players);
+    if (nickName !== undefined) {
+        players[asignation] = {
+            "name": nickName,
+            "score": 0
+        };
+    }
 }
 
-function savePlayers(){
-    localStorage.setItem('players',JSON.stringify(players));
+function savePlayers() {
+    sessionStorage.setItem('players', JSON.stringify(players));
     window.location.replace("pages/main.html");
 }
 
+// Uso de las funciones en la logica del boton para iniciar el juego
 btnStart.addEventListener('click', async () => {
-    await obtainName(1,'firstPlyer');
-    await obtainName(2,'secondPlayer');
-    await obtainName(3,'thirdPlayer');
-    await obtainName(4,'fourthPlayer');
+    await obtainName(1, 'firstPlyer');
+    await obtainName(2, 'secondPlayer');
+    await obtainName(3, 'thirdPlayer');
+    await obtainName(4, 'fourthPlayer');
     savePlayers();
 });
