@@ -6,10 +6,12 @@ const players = {
     "thirdPlayer": null,
     "fourthPlayer": null
 };
-const timeErrorLoading = 1000;
-
 //Declaración de funciones
-async function obtainName(position, asignation) {
+async function createPlayer(position, asignation) {
+    if(players[asignation] !== null){
+        return;
+    }
+
     const { value: nickName } = await Swal.fire({
         title: `Ingrese nombre de jugador ${position}`,
         input: 'text',
@@ -50,9 +52,9 @@ function savePlayers() {
 
 // Uso de las funciones en la logica del boton para iniciar el juego
 btnStart.addEventListener('click', async () => {
-    await obtainName(1, 'firstPlyer');
-    await obtainName(2, 'secondPlayer');
-    await obtainName(3, 'thirdPlayer');
-    await obtainName(4, 'fourthPlayer');
+    await createPlayer(1, 'firstPlyer');
+    await createPlayer(2, 'secondPlayer');
+    await createPlayer(3, 'thirdPlayer');
+    await createPlayer(4, 'fourthPlayer');
     savePlayers();
 });
