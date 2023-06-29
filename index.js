@@ -1,6 +1,6 @@
 //Inicialización de objetos a utilizar
 const btnStart = document.getElementById('btn-start');
-const players = {
+const players = (sessionStorage.getItem('players') !== null) ? JSON.parse(sessionStorage.getItem('players')) : {
     "firstPlyer": null,
     "secondPlayer": null,
     "thirdPlayer": null,
@@ -8,7 +8,7 @@ const players = {
 };
 //Declaración de funciones
 async function createPlayer(position, asignation) {
-    if(players[asignation] !== null){
+    if (players[asignation] !== null) {
         return;
     }
 
@@ -45,8 +45,8 @@ function savePlayers() {
     if (isValidPlayersData) {
         sessionStorage.setItem('players', JSON.stringify(players));
         window.location.replace("pages/main.html");
-    }else{
-        Swal.fire('Error','Asegurese de completar la información de los jugadores','error');
+    } else {
+        Swal.fire('Error', 'Asegurese de completar la información de los jugadores', 'error');
     }
 }
 
