@@ -1,28 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OCUN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="./globals.css">
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
+    <!--Html del modal-->
+    <div class="modal fade" id="settingsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajustes de la partida</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Html del input para el grupo y el número de participantes-->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="nameGroupInput" placeholder="Nombre del grupo">
+                        <label for="nameGroupInput">Nombre del grupo</label>
+                    </div>
+                    <select class="form-select mb-3" aria-label="Default select example">
+                        <option selected>Cantidad de miembros</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    <select class="form-select mb-3" aria-label="Default select example">
+                        <option selected>Tipo de prueba</option>
+                        <option value="basic">Basica</option>
+                        <option value="advanced">Avanzada</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Html del menu principal-->
     <main id="main-body">
-       <div id="main-container">
-            <img id="title-game" src="./assets/OCUN identificadorMesa de trabajo 33.png" alt="">
+        <div id="main-container">
+            <img id="title-game" src="./assets/OCUN identificadorMesa de trabajo 33.png" alt="olimpiadas de cerveza universidad nacional">
             <div class="button-container">
                 <button id="btn-start" class="btn-menu">Play</button>
             </div>
             <div class="button-container">
-                <button id="btn-settings" class="btn-menu">Settings</button>
+                <button id="btn-settings" class="btn-menu" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
             </div>
-       </div>
+        </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./index.js"></script>
 </body>
+
 </html>
