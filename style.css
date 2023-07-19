@@ -56,6 +56,18 @@ body {
     transform: scale(1.1);
 }
 
+.wrapper-group-selection{
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    padding: 10px 20px;
+}
+
+.wrapper-group-selection button{
+    margin-left: 10px;
+    width: 45px;
+}
+
 @media (max-width: 400px) {
     #main-container {
         width: 70%;

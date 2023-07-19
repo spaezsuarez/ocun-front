@@ -1,11 +1,20 @@
 //Inicialización de objetos a utilizar
 const btnStart = document.getElementById('btn-start');
+const btnSettings = document.getElementById('btn-settings');
+const btnsGroups = document.getElementsByClassName('btn-selection');
+
 const players = (sessionStorage.getItem('players') !== null) ? JSON.parse(sessionStorage.getItem('players')) : {
     "firstPlyer": null,
     "secondPlayer": null,
     "thirdPlayer": null,
     "fourthPlayer": null
 };
+
+const settings = {
+    "team":'',
+    "members":0,
+    "type":''
+}
 //Declaración de funciones
 async function createPlayer(position, asignation) {
     if (players[asignation] !== null) {
@@ -50,6 +59,11 @@ function savePlayers() {
     }
 }
 
+function loadGroupData(event){
+    const value = Number(event.target.innerText);
+    settings.members = value;
+}
+
 // Uso de las funciones en la logica del boton para iniciar el juego
 btnStart.addEventListener('click', async () => {
     await createPlayer(1, 'firstPlyer');
@@ -57,4 +71,18 @@ btnStart.addEventListener('click', async () => {
     await createPlayer(3, 'thirdPlayer');
     await createPlayer(4, 'fourthPlayer');
     savePlayers();
+});
+
+window.addEventListener('load',() => {
+    for(let i = 0; i < btnsGroups.length; i++){
+        btnsGroups[i].addEventListener('click',loadGroupData);
+    }
+});
+
+btnSettings.addEventListener('click',() => {
+    console.log(document.getElementById('nameGroupInput'));
+    settings.team = document.getElementById('nameGroupInput').value;
+    settings.type = document.getElementById('typeTest').value;
+    sessionStorage.setItem('settings', JSON.stringify(settings));
+    console.log(settings);
 });
