@@ -68,6 +68,12 @@ body {
     width: 45px;
 }
 
+.radio-selection{
+    background-color: var(--light-green);
+    color: var(--danger);
+    transform: scale(1.1);
+}
+
 @media (max-width: 400px) {
     #main-container {
         width: 70%;

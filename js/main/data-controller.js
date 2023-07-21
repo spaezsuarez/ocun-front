@@ -1,9 +1,23 @@
+const playersContainer = document.getElementsByClassName('players-container');
+let htmlPlayerLabel = ``;
+
 window.addEventListener("load", () => {
     const players = JSON.parse(sessionStorage.getItem('players'));
-    if(players){
-        document.getElementById('label-player-1').innerText = players["firstPlyer"].name;
-        document.getElementById('label-player-2').innerText = players["secondPlayer"].name;
-        document.getElementById('label-player-3').innerText = players["thirdPlayer"].name;
-        document.getElementById('label-player-4').innerText = players["fourthPlayer"].name;
+    const settings = JSON.parse(sessionStorage.getItem('settings'));
+    console.log(settings);
+    console.log(players);
+    if(!players || !settings){
+        Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
+        window.location.replace("index.html");
+        return;
     }
+    for(let index = 0; index < settings.members; index++){
+        const id = `label-player-${index+1}`;
+        htmlPlayerLabel += `
+        <div class="player">
+            <div id="${id}">${players[index].name}</div>
+            <div class="score">0</div>
+        </div>`;
+    }
+    playersContainer[0].innerHTML = htmlPlayerLabel;
 });

@@ -3,26 +3,22 @@ const btnStart = document.getElementById('btn-start');
 const btnSettings = document.getElementById('btn-settings');
 const btnsGroups = document.getElementsByClassName('btn-selection');
 
-const players = (sessionStorage.getItem('players') !== null) ? JSON.parse(sessionStorage.getItem('players')) : {
-    "firstPlyer": null,
-    "secondPlayer": null,
-    "thirdPlayer": null,
-    "fourthPlayer": null
-};
+const players = (sessionStorage.getItem('players') !== null) ? JSON.parse(sessionStorage.getItem('players')) : [];
 
-const settings = {
-    "team":'',
-    "members":0,
-    "type":''
+const settings =  (sessionStorage.getItem('settings') !== null) ? JSON.parse(sessionStorage.getItem('settings')) : {
+    "team": null,
+    "members": null,
+    "type": null
 }
+
 //Declaración de funciones
-async function createPlayer(position, asignation) {
-    if (players[asignation] !== null) {
+async function createPlayer(position) {
+    if (players[position] !== undefined) {
         return;
     }
 
     const { value: nickName } = await Swal.fire({
-        title: `Ingrese nombre de jugador ${position}`,
+        title: `Ingrese nombre de jugador ${position+1}`,
         input: 'text',
         inputLabel: 'Nombre:',
         showCancelButton: false,
@@ -35,7 +31,7 @@ async function createPlayer(position, asignation) {
         }
     });
     if (nickName !== undefined) {
-        players[asignation] = {
+        players[position] = {
             "name": nickName,
             "score": 0,
             "correctQuestions": 0
@@ -59,30 +55,37 @@ function savePlayers() {
     }
 }
 
-function loadGroupData(event){
-    const value = Number(event.target.innerText);
-    settings.members = value;
+function loadGroupData(event) {
+    for (let i = 0; i < btnsGroups.length; i++) {
+        const stylesCurrentNode = btnsGroups[i].classList;
+        if(stylesCurrentNode.contains('radio-selection')){
+            stylesCurrentNode.remove('radio-selection');
+        }
+    }
+    settings.members = Number(event.target.innerText);
+    event.target.classList.add('radio-selection');
 }
 
-// Uso de las funciones en la logica del boton para iniciar el juego
-btnStart.addEventListener('click', async () => {
-    await createPlayer(1, 'firstPlyer');
-    await createPlayer(2, 'secondPlayer');
-    await createPlayer(3, 'thirdPlayer');
-    await createPlayer(4, 'fourthPlayer');
-    savePlayers();
-});
-
-window.addEventListener('load',() => {
-    for(let i = 0; i < btnsGroups.length; i++){
-        btnsGroups[i].addEventListener('click',loadGroupData);
+// Manejadores de eventos
+window.addEventListener('load', () => {
+    for (let i = 0; i < btnsGroups.length; i++) {
+        btnsGroups[i].addEventListener('click', loadGroupData);
     }
 });
 
-btnSettings.addEventListener('click',() => {
-    console.log(document.getElementById('nameGroupInput'));
+btnStart.addEventListener('click', async () => {
+    if(settings.members === null){
+        Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
+        return;
+    }
+    for(let position = 0; position < settings.members; position++){
+        await createPlayer(position);
+    }
+    savePlayers();
+});
+
+btnSettings.addEventListener('click', () => {
     settings.team = document.getElementById('nameGroupInput').value;
     settings.type = document.getElementById('typeTest').value;
     sessionStorage.setItem('settings', JSON.stringify(settings));
-    console.log(settings);
 });
