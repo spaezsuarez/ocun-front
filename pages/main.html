@@ -6,11 +6,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego OCUN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles/main.css">
 </head>
 
 <body>
+    <div class="modal fade" id="detailquestion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Procesos: Cocción - Amateur</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        ¿Cuáles son los principales motivos por los cuales se hace la cocción del mosto?
+                    </p>
+                    <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-success" for="vbtn-radio1">a. Para coagular las proteínas y poder
+                            eliminarlas posteriormente.</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                        <label class="btn btn-outline-success" for="vbtn-radio2">b. Para obtener el amargor del
+                            lúpulo.</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                        <label class="btn btn-outline-success" for="vbtn-radio3">c. Eliminación de
+                            microorganismos</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                        <label class="btn btn-outline-success" for="vbtn-radio4">d. Todas las anteriores.</label>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="btntrue" autocomplete="off" checked>
+                        <label class="btn btn-outline-success" for="btntrue">Verdadero</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnfalse" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="btnfalse">Falso</label>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Pasar pregunta</button>
+                    <button type="button" class="btn btn-primary">Responder</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <button class="boton-top">Iniciar Juego</button>
     <div class="players-container">
         <div class="player">
@@ -36,7 +78,7 @@
     </div>
     <div class="card-container">
         <div class="card-space"></div>
-        <div class="card-space"></div>
+        <div data-bs-toggle="modal" data-bs-target="#detailquestion" class="card-space"></div>
         <div class="card-space"></div>
     </div>
     <div class="butons-container">
@@ -44,10 +86,14 @@
         <button id="boton-pass">Paso</button>
         <button id="boton-incorrect">Incorrecto</button>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+        crossorigin="anonymous"></script>
     <script src="../js/main/data-controller.js"></script>
     <script src="../js/main/main.js"></script>
 </body>
