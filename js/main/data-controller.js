@@ -4,8 +4,6 @@ let htmlPlayerLabel = ``;
 window.addEventListener("load", () => {
     const players = JSON.parse(sessionStorage.getItem('players'));
     const settings = JSON.parse(sessionStorage.getItem('settings'));
-    console.log(settings);
-    console.log(players);
     if(!players || !settings){
         Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
         window.location.replace("index.html");
