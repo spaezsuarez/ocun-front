@@ -1,6 +1,6 @@
 body {
     background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);
-    height: 100%;
+    height: 100 vh;
     padding: 0;
     margin: 0;
 }
@@ -13,7 +13,7 @@ body {
 }
 /* Estilos para el botón de reinicio*/
 .boton-top {
-    padding: 10px;
+    padding: 8px;
     background-color: #801E09;
     color: #fff;
     border: none;
@@ -93,26 +93,26 @@ body {
     text-align: center;
 }
 
-/* Estilos para los botones inferiores */
+/* Estilos para los botones del timer */
 #boton-beginning {
-    background-color: #4CAF50;
+    background-color: var(--dark-green);
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
 }
 #boton-beginning:hover {
     transform: scale(1.05);
 }
 #boton-pass {
-    background-color: #ccc;
+    background-color: var(--primary);
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    padding: 10px;
+    padding: 8px;
     margin: 10px 40px;
     cursor: pointer;
 }
@@ -120,18 +120,53 @@ body {
     transform: scale(1.05);
 }
 #boton-finish {
-    background-color: #F44336;
+    background-color: var(--red);
     color: #fff;
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
 }
 #boton-finish:hover {
     transform: scale(1.05);
 }
-
+/*Estilos Botones del fondo*/
+#inferior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 0;
+}
+.boton-bottom {
+    background-color:var(--orange);
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-radius: 45px;
+    font-size: 16px;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+.boton-bottom:hover {
+    transform: scale(1.05);
+}
+.boton-credits {
+    background-color:var(--danger);
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-radius: 45px;
+    font-size: 16px;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+.boton-credits:hover {
+    transform: scale(1.05);
+}
 .body-modal-wrapper{
     display: flex;
     justify-content: center;
