@@ -29,10 +29,10 @@ function loadDetailQuesion (currentQuestion) {
     let multipleOption = '';
 
     for(let i = 0; i < options.length; i++){
-        multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio${i+1}" autocomplete="off" checked>
+        multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio${i+1}" autocomplete="off">
         <label class="btn btn-outline-success" for="vbtn-radio${i+1}">${options[i]}</label>`;
     }
-
+    
     let answerOptions = currentQuestion.type === 'Opción múltiple'
         ? ` <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
               ${multipleOption}
