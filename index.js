@@ -2,24 +2,7 @@
 const btnStart = document.getElementById('btn-start');
 const btnSettings = document.getElementById('btn-settings');
 const btnsGroups = document.getElementsByClassName('btn-selection');
-
-let players = (sessionStorage.getItem('players') !== null) ? JSON.parse(sessionStorage.getItem('players')) : [];
-
-let settings =  (sessionStorage.getItem('settings') !== null) ? JSON.parse(sessionStorage.getItem('settings')) : {
-    "team": null,
-    "members": null,
-    "type": null
-}
-
-//Declaración de funciones
-function loadData(){
-    players = (sessionStorage.getItem('players') !== null) ? JSON.parse(sessionStorage.getItem('players')) : [];
-    settings =  (sessionStorage.getItem('settings') !== null) ? JSON.parse(sessionStorage.getItem('settings')) : {
-        "team": null,
-        "members": null,
-        "type": null
-    }
-}
+const httpClient = new HttpClient();
 
 function saveSettings(){
     settings.team = document.getElementById('nameGroupInput').value;
@@ -42,7 +25,6 @@ function savePlayers() {
     }
     if (isValidPlayersData) {
         sessionStorage.setItem('players', JSON.stringify(players));
-        window.location.replace("pages/main.html");
     } else {
         Swal.fire('Error', 'Asegurese de completar la información de los jugadores', 'error');
     }
@@ -86,15 +68,21 @@ function loadGroupData(event) {
     event.target.classList.add('radio-selection');
 }
 
+async function consultQuestions(){
+    const filterSearch = `?category=${settings.type}`;
+    const response = await httpClient.get(`/questions${filterSearch}`);
+    sessionStorage.setItem('questions',JSON.stringify(response));
+}
+
 // Manejadores de eventos
 window.addEventListener('load', () => {
+    loadData();
     for (let i = 0; i < btnsGroups.length; i++) {
         btnsGroups[i].addEventListener('click', loadGroupData);
     }
 });
 
 btnStart.addEventListener('click', async () => {
-    loadData();
     if(settings.members === null){
         Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
         return;
@@ -103,7 +91,10 @@ btnStart.addEventListener('click', async () => {
         await createPlayer(position);
     }
     savePlayers();
+    await consultQuestions();
+    window.location.replace("pages/main.html");
 });
+
 
 btnSettings.addEventListener('click', () => {
     saveSettings();
