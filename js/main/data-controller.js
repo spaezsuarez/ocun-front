@@ -9,7 +9,7 @@ function loadPlayers(){
     const settings = JSON.parse(sessionStorage.getItem('settings'));
     if(!players || !settings){
         Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
-        window.location.replace("index.html");
+        endGame();
         return;
     }
     for(let index = 0; index < settings.members; index++){

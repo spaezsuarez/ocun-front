@@ -1,6 +1,6 @@
-let players;
+let players = {};
 
-let settings;
+let settings = {};
 
 function loadData() {
   players =
@@ -15,4 +15,9 @@ function loadData() {
           members: null,
           type: null,
         };
+}
+
+function endGame(){
+  sessionStorage.clear();
+  window.location.replace(String(window.location).replace('pages/main.html','index.html'));
 }

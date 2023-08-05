@@ -3,6 +3,10 @@
 const pila_inicial = document.querySelector("#pila-inicial");
 const carta_mazo = document.querySelector(".carta-mazo");
 const seleccionada = document.querySelector("#seleccionada");*/
+const btnEndGame = document.getElementById('btn-end-game');
+const btnStart = document.getElementById("boton-beginning");
+const btnStop = document.getElementById("boton-finish");
+const btnRestart = document.getElementById("boton-pass");
 
 //Variables del juego
 const questions =
@@ -86,13 +90,14 @@ function reiniciarCronometro() {
   mostrarTiempo();
 }
 
-document.getElementById("boton-beginning").addEventListener("click", iniciarCronometro);
-document.getElementById("boton-finish").addEventListener("click", detenerCronometro);
-document.getElementById("boton-pass").addEventListener("click", reiniciarCronometro);
 
-document.addEventListener('DOMContentLoaded', (event) => {
+//Manejo de eventos
+document.addEventListener('DOMContentLoaded', () => {
   currentQuestion = questions[0];
   loadDetailQuesion(currentQuestion);
 });
 
-// ---------- Funciones auxiliares ----------
+btnStart.addEventListener('click', iniciarCronometro);
+btnStop.addEventListener('click', detenerCronometro);
+btnRestart.addEventListener('click', reiniciarCronometro);
+btnEndGame.addEventListener('click',endGame);
