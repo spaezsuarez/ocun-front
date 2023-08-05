@@ -24,7 +24,7 @@ function loadPlayers(){
 }
 
 function loadDetailQuesion (currentQuestion) {
-    const options = (currentQuestion.type === 'Opción múltiple') ?currentQuestion.options.split('\n') : [];
+    const options = (currentQuestion.type !== 'Verdadero Falso') ?currentQuestion.options.split('\n') : [];
     let multipleOption = '';
 
     for(let i = 0; i < options.length; i++){
