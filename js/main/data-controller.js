@@ -29,7 +29,7 @@ function loadDetailQuesion (currentQuestion) {
     let multipleOption = '';
 
     for(let i = 0; i < options.length; i++){
-        multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+        multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio${i+1}" autocomplete="off" checked>
         <label class="btn btn-outline-success" for="vbtn-radio${i+1}">${options[i]}</label>`;
     }
 
