@@ -90,7 +90,7 @@ document.getElementById("boton-beginning").addEventListener("click", iniciarCron
 document.getElementById("boton-finish").addEventListener("click", detenerCronometro);
 document.getElementById("boton-pass").addEventListener("click", reiniciarCronometro);
 
-modalWrapper.addEventListener("focus", (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
   currentQuestion = questions[0];
   loadDetailQuesion(currentQuestion);
 });

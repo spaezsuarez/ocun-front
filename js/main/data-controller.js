@@ -24,7 +24,6 @@ function loadPlayers(){
 }
 
 function loadDetailQuesion (currentQuestion) {
-
     const options = (currentQuestion.type === 'Opción múltiple') ?currentQuestion.options.split('\n') : [];
     let multipleOption = '';
 
