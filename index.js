@@ -12,10 +12,10 @@ function saveSettings(){
 
 function resetPlayers(){
     players = [];
-    sessionStorage.setItem('players', JSON.stringify(players));
+    sessionStorage.removeItem('players');
 }
 
-function savePlayers() {
+function saveGameData(questions) {
     let isValidPlayersData = true;
     for (let currentPlayer in players) {
         if (players[currentPlayer] === null) {
@@ -25,6 +25,7 @@ function savePlayers() {
     }
     if (isValidPlayersData) {
         sessionStorage.setItem('players', JSON.stringify(players));
+        sessionStorage.setItem('questions',JSON.stringify(questions));
     } else {
         Swal.fire('Error', 'Asegurese de completar la información de los jugadores', 'error');
     }
@@ -69,9 +70,12 @@ function loadGroupData(event) {
 }
 
 async function consultQuestions(){
-    const filterSearch = `?category=${settings.type}`;
-    const response = await httpClient.get(`/questions${filterSearch}`);
-    sessionStorage.setItem('questions',JSON.stringify(response));
+    try {
+        const filterSearch = `?category=${settings.type}`;
+        return await httpClient.get(`/questions${filterSearch}`);
+    } catch (error) {
+        return null;
+    }
 }
 
 // Manejadores de eventos
@@ -90,8 +94,12 @@ btnStart.addEventListener('click', async () => {
     for(let position = 0; position < settings.members; position++){
         await createPlayer(position);
     }
-    savePlayers();
-    await consultQuestions();
+    const questions = await consultQuestions();
+    if(questions === null){
+        Swal.fire('Error', 'No hay conexion con el servidor', 'error');
+        return;
+    }
+    saveGameData(questions);
     window.location.replace("pages/main.html");
 });
 
