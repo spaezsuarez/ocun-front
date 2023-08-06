@@ -32,7 +32,7 @@ function loadDetailQuesion (currentQuestion) {
         <label class="btn btn-outline-success" for="vbtn-radio${i+1}">${options[i]}</label>`;
     }
     
-    let answerOptions = currentQuestion.type === 'Opción múltiple'
+    let answerOptions = currentQuestion.type !==  'Verdadero Falso'
         ? ` <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
               ${multipleOption}
         </div>`
