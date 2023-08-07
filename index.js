@@ -2,15 +2,15 @@
 const btnStart = document.getElementById('btn-start');
 const btnSettings = document.getElementById('btn-settings');
 const btnsGroups = document.getElementsByClassName('btn-selection');
-const httpClient = new HttpClient();
+const btnServerSettings = document.getElementById('btn-url');
 
-function saveSettings(){
+function saveSettings() {
     settings.team = document.getElementById('nameGroupInput').value;
     settings.type = document.getElementById('typeTest').value;
     sessionStorage.setItem('settings', JSON.stringify(settings));
 }
 
-function resetPlayers(){
+function resetPlayers() {
     players = [];
     sessionStorage.removeItem('players');
 }
@@ -25,7 +25,7 @@ function saveGameData(questions) {
     }
     if (isValidPlayersData) {
         sessionStorage.setItem('players', JSON.stringify(players));
-        sessionStorage.setItem('questions',JSON.stringify(questions));
+        sessionStorage.setItem('questions', JSON.stringify(questions));
     } else {
         Swal.fire('Error', 'Asegurese de completar la información de los jugadores', 'error');
     }
@@ -37,7 +37,7 @@ async function createPlayer(position) {
     }
 
     const { value: nickName } = await Swal.fire({
-        title: `Ingrese nombre de jugador ${position+1}`,
+        title: `Ingrese nombre de jugador ${position + 1}`,
         input: 'text',
         inputLabel: 'Nombre:',
         showCancelButton: false,
@@ -61,7 +61,7 @@ async function createPlayer(position) {
 function loadGroupData(event) {
     for (let i = 0; i < btnsGroups.length; i++) {
         const stylesCurrentNode = btnsGroups[i].classList;
-        if(stylesCurrentNode.contains('radio-selection')){
+        if (stylesCurrentNode.contains('radio-selection')) {
             stylesCurrentNode.remove('radio-selection');
         }
     }
@@ -69,10 +69,10 @@ function loadGroupData(event) {
     event.target.classList.add('radio-selection');
 }
 
-async function consultQuestions(){
+async function consultQuestions() {
     try {
         const filterSearch = `?category=${settings.type}`;
-        return await httpClient.get(`/questions${filterSearch}`);
+        return await get(`/questions${filterSearch}`);
     } catch (error) {
         return null;
     }
@@ -87,16 +87,16 @@ window.addEventListener('load', () => {
 });
 
 btnStart.addEventListener('click', async () => {
-    if(settings.members === null){
+    if (settings.members === null) {
         Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
         return;
     }
-    for(let position = 0; position < settings.members; position++){
+    for (let position = 0; position < settings.members; position++) {
         await createPlayer(position);
     }
-    const questions = await consultQuestions();
-    if(questions === null){
-        Swal.fire('Error', 'No hay conexion con el servidor', 'error');
+    const questions = await consultQuestions(server);
+    if (questions === null) {
+        Swal.fire('Error', 'No hay conexion con el servidor o no se encuentra configurado', 'error');
         return;
     }
     saveGameData(questions);
@@ -107,4 +107,14 @@ btnStart.addEventListener('click', async () => {
 btnSettings.addEventListener('click', () => {
     saveSettings();
     resetPlayers();
+});
+
+btnServerSettings.addEventListener('click', () => {
+    const url = String(document.getElementById('serverInput').value);
+    if(url === '' || url === null || url === undefined){
+        Swal.fire('Error', 'La dirección no puede ser vacia', 'error');
+        return;
+    }
+    localStorage.setItem('server', url);
+    Swal.fire('Info', 'Información guardada de forma exitosa', 'success');
 });

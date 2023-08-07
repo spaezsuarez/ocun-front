@@ -1,23 +1,26 @@
 let players = {};
-
 let settings = {};
+let server = null;
 
 function loadData() {
   players =
-    sessionStorage.getItem("players") !== null
-      ? JSON.parse(sessionStorage.getItem("players"))
+    sessionStorage.getItem('players') !== null
+      ? JSON.parse(sessionStorage.getItem('players'))
       : [];
   settings =
-    sessionStorage.getItem("settings") !== null
-      ? JSON.parse(sessionStorage.getItem("settings"))
+    sessionStorage.getItem('settings') !== null
+      ? JSON.parse(sessionStorage.getItem('settings'))
       : {
-          team: null,
-          members: null,
-          type: null,
-        };
+        team: null,
+        members: null,
+        type: null,
+      };
+  server = localStorage.getItem('server') !== null
+    ? String(localStorage.getItem('server'))
+    : null;
 }
 
-function endGame(){
+function endGame() {
   sessionStorage.clear();
-  window.location.replace(String(window.location).replace('pages/main.html','index.html'));
+  window.location.replace(String(window.location).replace('pages/main.html', 'index.html'));
 }

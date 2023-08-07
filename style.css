@@ -1,9 +1,6 @@
 body {
     padding: 0;
     margin: 0;
-    /*background: linear-gradient(90deg, var(--orange) 0%,var(--light-green) 100%);*/
-    /*background: linear-gradient(to top left, #C4AC33 0%, #2A0F80 100%);*/
-    /*background: linear-gradient(to top left, #90BE6D 0%, #43AA8B 100%);*/
     background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);
 }
 
@@ -35,12 +32,15 @@ body {
 
 .button-container {
     width: 50%;
-    height: 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .btn-menu {
     width: 100%;
-    height: 100%;
+    height: 20%;
     border-radius: 50px;
     background-color: var(--primary);
     color: white;
@@ -48,6 +48,13 @@ body {
     cursor: pointer;
     border: none;
     transition: 500ms;
+}
+
+.btn-menu * {
+    width: 50%;
+    height: 50%;
+    text-align: center;
+    color: red;
 }
 
 .btn-menu:hover {

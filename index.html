@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <!--Pop Up -->
+    <!--Modal para ajustes de la partida -->
     <div class="modal fade" id="settingsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -29,11 +29,11 @@
                         <label for="nameGroupInput">Nombre del equipo:</label>
                     </div>
                     <h6>Número de jugadores:</h6>
-                    <div class="wrapper-group-selection" >
+                    <div class="wrapper-group-selection">
                         <button class="btn-menu btn-selection">1</button>
                         <button class="btn-menu btn-selection">2</button>
                         <button class="btn-menu btn-selection">3</button>
-                        <button class="btn-menu btn-selection" >4</button>
+                        <button class="btn-menu btn-selection">4</button>
                     </div>
                     <select id="typeTest" class="form-select mb-3" aria-label="Default select example">
                         <option selected>Tipo de prueba</option>
@@ -43,7 +43,32 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button id="btn-settings" type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                    <button id="btn-settings" type="button" class="btn btn-primary"
+                        data-bs-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal para configuración del servidor -->
+    <div class="modal fade" id="serverModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel1">Dirección del servidor</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Html del input para el grupo y el número de participantes-->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="serverInput" placeholder="URL:">
+                        <label for="serverInput">URL:</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button id="btn-url" type="button" class="btn btn-primary"
+                        data-bs-dismiss="modal">Guardar</button>
                 </div>
             </div>
         </div>
@@ -51,12 +76,14 @@
     <!--Html del menu principal-->
     <main id="main-body">
         <div id="main-container">
-            <img id="title-game" src="./assets/OCUN identificadorMesa de trabajo 33.png" alt="olimpiadas de cerveza universidad nacional">
+            <img id="title-game" src="./assets/OCUN identificadorMesa de trabajo 33.png"
+                alt="olimpiadas de cerveza universidad nacional">
             <div class="button-container">
-                <button id="btn-start" class="btn-menu">Play</button>
-            </div>
-            <div class="button-container">
-                <button id="btn-settings" class="btn-menu" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button>
+                <button id="btn-start" class="btn-menu"><img src="./img/play.svg" alt=""></button>
+                <button class="btn-menu" data-bs-toggle="modal" data-bs-target="#settingsModal"><img
+                        src="./img/settings.svg" alt=""></button>
+                <button class="btn-menu" data-bs-toggle="modal" data-bs-target="#serverModal"><img
+                        src="./img/serverm.svg" alt=""></button>
             </div>
         </div>
     </main>
@@ -65,7 +92,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/util/storage.js"></script>
-    <script src="./js/util/http-client.js"></script>
+    <script src="./js/util/http.js"></script>
     <script src="./index.js"></script>
     <script src="./index-data-controller.js"></script>
 </body>

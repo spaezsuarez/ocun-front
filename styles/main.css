@@ -1,16 +1,35 @@
 body {
-    background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);
-    height: 100 vh;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
 }
-#Superior {
+
+#top-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
     margin: 0;
+    border-bottom: 1px solid black;
+    width: 100%;
+    height: 15%;
 }
+
+.top-nav-buttons{
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-wrapper{
+    background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);
+    padding-top: 50px;
+    width: 100%;
+    height: 85%;
+}
+
 /* Estilos para el botón de reinicio*/
 .boton-top {
     padding: 8px;
@@ -23,6 +42,7 @@ body {
     margin-bottom: auto;
     cursor: pointer;
 }
+
 .boton-top:hover {
     background-color: #FBC143;
     color: #4d908e;

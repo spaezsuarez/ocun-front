@@ -1,5 +1,6 @@
 const nameGroup = document.getElementById('nameGroupInput');
 const typeTest = document.getElementById('typeTest');
+const serverInput = document.getElementById('serverInput');
 
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
@@ -10,6 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             stylesCurrentNode.add('radio-selection');
         }
     }
-    typeTest.value = settings.type;
+    typeTest.value = (settings.type !== null) ? settings.type : 'Tipo de prueba';
+    serverInput.value = (server !== null || server !== '') ? server : '';
 });
-  
