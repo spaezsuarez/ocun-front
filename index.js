@@ -71,8 +71,7 @@ function loadGroupData(event) {
 
 async function consultQuestions() {
     try {
-        const filterSearch = `?category=${settings.type}`;
-        return await get(`/questions${filterSearch}`);
+        return await get(`/questions?category=${settings.type}`);
     } catch (error) {
         return null;
     }
