@@ -85,6 +85,16 @@ window.addEventListener('load', () => {
     }
 });
 
+function cleanBooleanValues(questions){
+    const response = [...questions];
+    for(let i = 0; i < questions.length; i++){
+        if(response[i].type === 'Verdadero Falso'){
+            response[i].answer = (response[i].answer)? 'Verdadero' : 'Falso';
+        }
+    }
+    return response;
+}
+
 btnStart.addEventListener('click', async () => {
     if (settings.members === null) {
         Swal.fire('Error', 'Asegurese de realizar los ajustes de la partida', 'error');
@@ -98,7 +108,7 @@ btnStart.addEventListener('click', async () => {
         Swal.fire('Error', 'No hay conexion con el servidor o no se encuentra configurado', 'error');
         return;
     }
-    saveGameData(questions);
+    saveGameData(cleanBooleanValues(questions));
     window.location.replace("pages/main.html");
 });
 

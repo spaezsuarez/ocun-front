@@ -14,13 +14,23 @@
     <div class="modal fade" id="detailquestion" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div id="info-header" class="modal-header">
                 </div>
-                <div class="modal-body body-modal-wrapper">
+                <div id="info-body" class="modal-body body-modal-wrapper">
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Pasar pregunta</button>
-                    <button type="button" class="btn btn-primary">Responder</button>
+                <div class="modal-footer section_bottom_modal">
+                    <button id="btnRespondAnswer" type="button" class="btn btn-primary">Responder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="errorQuestion" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="error-header" class="modal-header"></div>
+                <div id="error-body" class="modal-body body-modal-wrapper"></div>
+                <div class="modal-footer section_bottom_modal">
+                    <button id="btnRespondErrorAnswer" type="button" class="btn btn-primary">Responder</button>
                 </div>
             </div>
         </div>
@@ -28,7 +38,7 @@
     <header id="top-nav">
         <img id="title-game" src="../assets/OCUN identificadorMesa de trabajo 28.png" alt="Logo OCUN">
         <div class="top-nav-buttons">
-            <button class="boton-top">Reiniciar Juego</button>
+            <button id="btnRestartGame" class="boton-top">Reiniciar Juego</button>
             <button class="boton-bottom" id="btn-end-game">Finalizar Juego</button>
             <button class="boton-credits">Creditos</button>
         </div>
@@ -37,19 +47,20 @@
         <div class="players-container"></div>
         <div id="player-info">
             <div id="jugador-actual">Nombre del jugador</div>
+            <div id="puntaje-actual"></div>
             <div id="timer">00:00</div>
         </div>
         <div class="card-container">
-            <div class="card-space"></div>
-            <div data-bs-toggle="modal" data-bs-target="#detailquestion" class="card-space"></div>
-            <div class="card-space"></div>
+            <div id="incorrectAnswerButton" class="card-space">incorrectas</div>
+            <div data-bs-toggle="modal" data-bs-target="#detailquestion" class="card-space">Preguntas</div>
         </div>
         <div class="butons-container">
-            <button id="boton-beginning">Iniciar cronómetro</button>
+            <button id="boton-beginning">Iniciar Juego</button>
             <button id="boton-pass">Paso</button>
-            <button id="boton-finish">Detener cronómetro</button>
+            <button id="boton-finish">Detener</button>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
