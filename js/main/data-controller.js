@@ -30,11 +30,8 @@ function setCurrentAnswer(event) {
     currentAnswer = event.target.innerText;
 }
 
-function setCurrentIncorrectAnswer(event) {
-    currentAnswer = event.target.innerText;
-}
-
 function loadDetailQuesion(currentQuestion) {
+    console.table(currentQuestion);
     const options = (currentQuestion.type !== 'Verdadero Falso') ? currentQuestion.options.split('\n') : [];
     let multipleOption = '';
 
@@ -59,8 +56,13 @@ function loadDetailQuesion(currentQuestion) {
     infoBody.innerHTML = `<p>${currentQuestion.question}</p> ${answerOptions}`;
 };
 
+function setCurrentIncorrectAnswer(event) {
+    console.log('Entro a seleccionar respuesta de barajaa incorrecta')
+    currentIncorrectAnswer = event.target.innerText;
+}
+
 function loadErrorQuesion(errorQuestion) {
-    console.log(errorQuestion);
+    console.table(errorQuestion);
     const options = (errorQuestion.type !== 'Verdadero Falso') ? errorQuestion.options.split('\n') : [];
     let multipleOption = '';
 

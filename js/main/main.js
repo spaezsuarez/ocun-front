@@ -47,11 +47,8 @@ function changePlayer() {
   currentPlayer.player = players[currentPlayer.index];
 }
 
-function changeShift(removeErrorCard = false) {
-  //TODO: remplazar los puntajes de las preguntas que fueron respondidas incorrectamente,sacar las preguntas ya resultas
-  currentQuestion.index = 0;
+function updateDeck(removeErrorCard = false){
   const originalQuestions = [...questions];
-  
   for(let i = 0; i < originalQuestions.length; i++){
     if(correctQuestions[correctQuestionsIterator] !== undefined && originalQuestions[i].number === correctQuestions[correctQuestionsIterator].number){
       console.log('Entro a borrar respuesta correcta ' + i);
@@ -64,17 +61,31 @@ function changeShift(removeErrorCard = false) {
       incorectQuestionsIterator++;
     }
   }
-  if(removeErrorCard){ç
+  if(removeErrorCard){
     incorrectQuestions.splice(currentIncorrectDeckQuestion.index,1);
+    currentIncorrectDeckQuestion.index = 0;
   }
   questions = originalQuestions;
   currentQuestion.question = questions[currentQuestion.index];
+  currentQuestion.index = 0;
+  console.log(questions.length);
+  
+  //TODO: Validar cuando no queden cartas en el mazo
+  if(questions.length === 0){
+
+  }
+}
+
+function changeShift() {
+  //TODO: remplazar los puntajes de las preguntas que fueron respondidas incorrectamente,sacar las preguntas ya resultas
+  updateDeck();
   loadDetailQuesion(currentQuestion.question);
   //TODO: Cambiar de jugador
+  $('#errorQuestion').modal('hide');
+  $('#detailquestion').modal('hide');
   changePlayer();
   updateCurrentLabelPlayer();
   startTimer();
-
 }
 
 function startTimer() {
@@ -88,6 +99,7 @@ function startTimer() {
       stopTimer();
       restartTimer();
       changeShift();
+
     }
   }, 1000);
 }
@@ -109,6 +121,7 @@ function updateCurrentLabelPlayer() {
 
 function startGame() {
   isActiveGame = true;
+  $('#boton-beginning').prop('disabled', true);
   updateCurrentLabelPlayer();
   startTimer();
 }
@@ -123,27 +136,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-btnStart.addEventListener('click', startGame);
+btnStart.addEventListener('click', (event) => {
+  startGame();
+});
 btnStop.addEventListener('click', stopTimer);
 btnEndGame.addEventListener('click', endGame);
 btnPassTurn.addEventListener('click', () => {
   changePlayer();
+  restartTimer();
   updateCurrentLabelPlayer();
 });
+
+function validateAnswer(realQuestion,selectedAnswer){
+  console.log(realQuestion.answer);
+  console.log(selectedAnswer);
+  if(realQuestion.type === 'Respuesta múltiple'){
+    const options = realQuestion.answer.split('@');
+    return options.includes(selectedAnswer);
+  }else {
+    console.log('Caso Normal');
+    return realQuestion.answer === selectedAnswer;
+  }
+}
 
 //Logica principal al oprimir reponder pregunta de la baraja principal
 btnRespondAnswer.addEventListener('click', () => {
   if (isActiveGame) {
-    if (currentQuestion.question.answer === currentAnswer) {
+    if (validateAnswer(currentQuestion.question,currentAnswer)) {
       console.log('Correcto');
       currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
       correctQuestions.push(currentQuestion.question);
       currentQuestion.index += 1;
       currentQuestion.question = questions[currentQuestion.index];
+      updateDeck();
       loadDetailQuesion(currentQuestion.question);
       updateCurrentLabelPlayer();
     } else {
+      console.log('Incorrecto');
       restartTimer();
       let tempScorePlayer = currentPlayer.player.score - (currentQuestion.question.difficulty * 100);
       currentPlayer.player.score = (tempScorePlayer < 0) ? 0 : tempScorePlayer;
@@ -151,6 +181,7 @@ btnRespondAnswer.addEventListener('click', () => {
       incorrectQuestions.push(currentQuestion.question);
       currentQuestion.index += 1;
       currentQuestion.question = questions[currentQuestion.index];
+      currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       $('#detailquestion').modal('hide')
       changeShift();
     }
@@ -159,21 +190,21 @@ btnRespondAnswer.addEventListener('click', () => {
   }
 });
 
+
 //Logica para responder pregunta en la baraja de preguntas incorrectas
 btnRespondErrorAnswer.addEventListener('click',() => {
-  console.log('click');
   if (isActiveGame) {
-    if (currentIncorrectDeckQuestion.question.answer === currentIncorrectAnswer) {
+    //TODO: Tener en cuenta tipo para comparar mpas de una posible respuesta
+    if (validateAnswer(currentIncorrectDeckQuestion.question,currentIncorrectAnswer)) {
       console.log('Correcto 2');
       currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
       //correctQuestions.push(currentQuestion.question);
-      console.table(incorrectQuestions);
       incorrectQuestions.splice(currentIncorrectDeckQuestion.index,1);
-      console.table(incorrectQuestions);
-      currentIncorrectDeckQuestion.index += 1;
+      currentIncorrectDeckQuestion.index = 0;
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       if(currentIncorrectDeckQuestion.question !== undefined){
+        updateDeck();
         loadErrorQuesion(currentIncorrectDeckQuestion.question);
       }else{
         $('#errorQuestion').modal('hide');
@@ -184,9 +215,10 @@ btnRespondErrorAnswer.addEventListener('click',() => {
       currentIncorrectDeckQuestion.index = 0;
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       $('#errorQuestion').modal('hide')
-      changeShift(true);
+      changeShift();
     }
     //TODO:Borrar preguntas incorrectas ya respondidas
+    updateDeck(true);
   }else{
     Swal.fire('Error','Asegurese de iniciar la partida','error');
   }
@@ -194,7 +226,8 @@ btnRespondErrorAnswer.addEventListener('click',() => {
 
 document.getElementById('incorrectAnswerButton').addEventListener('click', () => {
   if(incorrectQuestions.length !== 0){
-    loadErrorQuesion(incorrectQuestions[0]);
+    currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
+    loadErrorQuesion(currentIncorrectDeckQuestion.question);
     $('#errorQuestion').modal('show');
   }
 });
