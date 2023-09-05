@@ -22,8 +22,6 @@ let currentIncorrectDeckQuestion = {
 };
 let incorrectQuestions = [];
 let correctQuestions = [];
-let correctQuestionsIterator = 0;
-let incorectQuestionsIterator = 0;
 let segundos = 180; // Tiempo inicial en segundos
 let intervalo; // Variable para almacenar el intervalo del cronómetro
 let questions = sessionStorage.getItem("questions") !== null ? JSON.parse(sessionStorage.getItem("questions")) : [];
@@ -47,27 +45,27 @@ function changePlayer() {
   currentPlayer.player = players[currentPlayer.index];
 }
 
-function updateDeck(removeErrorCard = false){
+function updateDeck(){
   const originalQuestions = [...questions];
   for(let i = 0; i < originalQuestions.length; i++){
-    if(correctQuestions[correctQuestionsIterator] !== undefined && originalQuestions[i].number === correctQuestions[correctQuestionsIterator].number){
-      console.log('Entro a borrar respuesta correcta ' + i);
+    if(originalQuestions[i].game_data.isCorrectAnswered){
+      console.log('Caso 1, respondido correctamente');
       originalQuestions.splice(i, 1);
-      correctQuestionsIterator++;
-    }
-    if(incorrectQuestions[incorectQuestionsIterator] !== undefined && originalQuestions[i].number === incorrectQuestions[incorectQuestionsIterator].number){
-      console.log('Entro a borrar respuesta incorrecta ' + i);
+    }else if(originalQuestions[i].game_data.hasSecondLife){
+      console.log('Caso 2, Agregada a baraja de palabras incorrectas');
+      console.log(questions);
+      incorrectQuestions.push({...originalQuestions[i]});
       originalQuestions.splice(i, 1);
-      incorectQuestionsIterator++;
+      console.log(originalQuestions);
+      // console.log(incorrectQuestions);
     }
   }
-  if(removeErrorCard){
-    incorrectQuestions.splice(currentIncorrectDeckQuestion.index,1);
-    currentIncorrectDeckQuestion.index = 0;
-  }
+  const originalIncorrectQuestions = [...incorrectQuestions];
+  incorrectQuestions = originalIncorrectQuestions.filter(item => !item.game_data.needToBeDeleted);
   questions = originalQuestions;
-  currentQuestion.question = questions[currentQuestion.index];
   currentQuestion.index = 0;
+  currentIncorrectDeckQuestion.index = 0;
+  currentQuestion.question = questions[currentQuestion.index];
   console.log(questions.length);
   
   //TODO: Validar cuando no queden cartas en el mazo
@@ -78,8 +76,8 @@ function updateDeck(removeErrorCard = false){
 
 function changeShift() {
   //TODO: remplazar los puntajes de las preguntas que fueron respondidas incorrectamente,sacar las preguntas ya resultas
-  updateDeck();
-  loadDetailQuesion(currentQuestion.question);
+  //updateDeck();
+  //loadDetailQuesion(currentQuestion.question);
   //TODO: Cambiar de jugador
   $('#errorQuestion').modal('hide');
   $('#detailquestion').modal('hide');
@@ -129,7 +127,8 @@ function startGame() {
 //Manejo de eventos
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
-  currentQuestion.question = questions[0];
+  currentQuestion.question = {...questions[0]};
+  currentQuestion.index = 0;
   currentPlayer.index = 0;
   currentPlayer.player = players[0];
   loadDetailQuesion(currentQuestion.question);
@@ -145,6 +144,7 @@ btnPassTurn.addEventListener('click', () => {
   changePlayer();
   restartTimer();
   updateCurrentLabelPlayer();
+  updateDeck();
 });
 
 function validateAnswer(realQuestion,selectedAnswer){
@@ -162,28 +162,43 @@ function validateAnswer(realQuestion,selectedAnswer){
 //Logica principal al oprimir reponder pregunta de la baraja principal
 btnRespondAnswer.addEventListener('click', () => {
   if (isActiveGame) {
+    console.log(questions.length);
+    console.log(incorrectQuestions.length);
+    if(questions.length === 0 && incorrectQuestions.length === 0){
+      $('#detailquestion').modal('hide');
+      $('#errorQuestion').modal('hide');
+      alert('ACABO');
+      return;
+    }
+
     if (validateAnswer(currentQuestion.question,currentAnswer)) {
       console.log('Correcto');
       currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
-      correctQuestions.push(currentQuestion.question);
+      questions[currentQuestion.index].game_data.isCorrectAnswered = true;
       currentQuestion.index += 1;
-      currentQuestion.question = questions[currentQuestion.index];
+      currentQuestion.question = {...questions[currentQuestion.index]};
       updateDeck();
-      loadDetailQuesion(currentQuestion.question);
+      if(questions.length !== 0) {
+        loadDetailQuesion(currentQuestion.question);
+      }else {
+        $('#detailquestion').modal('hide');
+      }
       updateCurrentLabelPlayer();
     } else {
       console.log('Incorrecto');
-      restartTimer();
       let tempScorePlayer = currentPlayer.player.score - (currentQuestion.question.difficulty * 100);
       currentPlayer.player.score = (tempScorePlayer < 0) ? 0 : tempScorePlayer;
-      currentQuestion.question.difficulty /= 2;
-      incorrectQuestions.push(currentQuestion.question);
+      questions[currentQuestion.index].difficulty /= 2;
+      questions[currentQuestion.index].game_data.hasSecondLife = true;
       currentQuestion.index += 1;
-      currentQuestion.question = questions[currentQuestion.index];
-      currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
-      $('#detailquestion').modal('hide')
+      currentQuestion.question = {...questions[currentQuestion.index]};
+      //currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
+      $('#detailquestion').modal('hide');
+      updateDeck();
       changeShift();
+      loadDetailQuesion(currentQuestion.question);
+      restartTimer();
     }
   }else{
     Swal.fire('Error','Asegurese de iniciar la partida','error');
@@ -200,10 +215,12 @@ btnRespondErrorAnswer.addEventListener('click',() => {
       currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
       //correctQuestions.push(currentQuestion.question);
-      incorrectQuestions.splice(currentIncorrectDeckQuestion.index,1);
-      currentIncorrectDeckQuestion.index = 0;
+      //incorrectQuestions.splice(currentIncorrectDeckQuestion.index,1);
+      incorrectQuestions[currentIncorrectDeckQuestion.index].game_data.needToBeDeleted = true;
+      currentIncorrectDeckQuestion.index += 1;
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       if(currentIncorrectDeckQuestion.question !== undefined){
+        currentIncorrectDeckQuestion.index = 0;
         updateDeck();
         loadErrorQuesion(currentIncorrectDeckQuestion.question);
       }else{
@@ -212,21 +229,25 @@ btnRespondErrorAnswer.addEventListener('click',() => {
       updateCurrentLabelPlayer();
     } else {
       console.log('Incorrecto 2');
-      currentIncorrectDeckQuestion.index = 0;
+      let tempScorePlayer = currentPlayer.player.score - (currentIncorrectDeckQuestion.question.difficulty * 100);
+      currentPlayer.player.score = (tempScorePlayer < 0) ? 0 : tempScorePlayer;
+      currentIncorrectDeckQuestion.question.game_data.needToBeDeleted = true;
+      currentIncorrectDeckQuestion.index += 1;
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
-      $('#errorQuestion').modal('hide')
+      $('#errorQuestion').modal('hide');
+      updateDeck();
       changeShift();
     }
     //TODO:Borrar preguntas incorrectas ya respondidas
-    updateDeck(true);
+    //updateDeck(true);
   }else{
     Swal.fire('Error','Asegurese de iniciar la partida','error');
   }
 });
 
 document.getElementById('incorrectAnswerButton').addEventListener('click', () => {
-  if(incorrectQuestions.length !== 0){
-    currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
+  if(incorrectQuestions[currentIncorrectDeckQuestion.index] !== undefined){
+    currentIncorrectDeckQuestion.question = {...incorrectQuestions[currentIncorrectDeckQuestion.index]}
     loadErrorQuesion(currentIncorrectDeckQuestion.question);
     $('#errorQuestion').modal('show');
   }

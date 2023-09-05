@@ -31,7 +31,7 @@ function setCurrentAnswer(event) {
 }
 
 function loadDetailQuesion(currentQuestion) {
-    console.table(currentQuestion);
+    console.log(currentQuestion);
     const options = (currentQuestion.type !== 'Verdadero Falso') ? currentQuestion.options.split('\n') : [];
     let multipleOption = '';
 
@@ -62,7 +62,7 @@ function setCurrentIncorrectAnswer(event) {
 }
 
 function loadErrorQuesion(errorQuestion) {
-    console.table(errorQuestion);
+    console.log(errorQuestion);
     const options = (errorQuestion.type !== 'Verdadero Falso') ? errorQuestion.options.split('\n') : [];
     let multipleOption = '';
 
@@ -76,9 +76,9 @@ function loadErrorQuesion(errorQuestion) {
               ${multipleOption}
         </div>`
         : `<div class="btn-group multiple-option-wrapper" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="errorbtntrue" autocomplete="off" checked>
+          <input type="radio" class="btn-check" name="btnradio" id="errorbtntrue">
           <label class="btn btn-outline-success" for="errorbtntrue" onclick="setCurrentIncorrectAnswer(event)">Verdadero</label>
-          <input type="radio" class="btn-check" name="btnradio" id="errorbtnfalse" autocomplete="off">
+          <input type="radio" class="btn-check" name="btnradio" id="errorbtnfalse">
           <label class="btn btn-outline-danger" for="errorbtnfalse" onclick="setCurrentIncorrectAnswer(event)">Falso</label>
         </div>`;
 
