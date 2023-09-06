@@ -7,7 +7,8 @@ const btnRespondAnswer = document.getElementById('btnRespondAnswer');
 const btnRespondErrorAnswer = document.getElementById('btnRespondErrorAnswer');
 const btnPassTurn = document.getElementById('boton-pass');
 //Variables del juego
-let isActiveGame = false;
+let isGameActive = false;
+let isGameFinished = false;
 let currentPlayer = {
   index: 0,
   player: {}
@@ -69,8 +70,12 @@ function updateDeck(){
   console.log(questions.length);
   
   //TODO: Validar cuando no queden cartas en el mazo
-  if(questions.length === 0){
-
+  if(questions.length === 0 && incorrectQuestions.length === 0){
+    $('#detailquestion').modal('hide');
+    $('#errorQuestion').modal('hide');
+    isGameActive = false;
+    isGameFinished = true;
+    alert('ACABO');
   }
 }
 
@@ -118,7 +123,7 @@ function updateCurrentLabelPlayer() {
 }
 
 function startGame() {
-  isActiveGame = true;
+  isGameActive = true;
   $('#boton-beginning').prop('disabled', true);
   updateCurrentLabelPlayer();
   startTimer();
@@ -161,16 +166,9 @@ function validateAnswer(realQuestion,selectedAnswer){
 
 //Logica principal al oprimir reponder pregunta de la baraja principal
 btnRespondAnswer.addEventListener('click', () => {
-  if (isActiveGame) {
+  if (isGameActive) {
     console.log(questions.length);
     console.log(incorrectQuestions.length);
-    if(questions.length === 0 && incorrectQuestions.length === 0){
-      $('#detailquestion').modal('hide');
-      $('#errorQuestion').modal('hide');
-      alert('ACABO');
-      return;
-    }
-
     if (validateAnswer(currentQuestion.question,currentAnswer)) {
       console.log('Correcto');
       currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
@@ -208,11 +206,11 @@ btnRespondAnswer.addEventListener('click', () => {
 
 //Logica para responder pregunta en la baraja de preguntas incorrectas
 btnRespondErrorAnswer.addEventListener('click',() => {
-  if (isActiveGame) {
+  if (isGameActive) {
     //TODO: Tener en cuenta tipo para comparar mpas de una posible respuesta
     if (validateAnswer(currentIncorrectDeckQuestion.question,currentIncorrectAnswer)) {
       console.log('Correcto 2');
-      currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
+      currentPlayer.player.score = currentPlayer.player.score + (currentIncorrectDeckQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
       //correctQuestions.push(currentQuestion.question);
       //incorrectQuestions.splice(currentIncorrectDeckQuestion.index,1);
@@ -224,6 +222,7 @@ btnRespondErrorAnswer.addEventListener('click',() => {
         updateDeck();
         loadErrorQuesion(currentIncorrectDeckQuestion.question);
       }else{
+        updateDeck();
         $('#errorQuestion').modal('hide');
       }
       updateCurrentLabelPlayer();
@@ -250,5 +249,13 @@ document.getElementById('incorrectAnswerButton').addEventListener('click', () =>
     currentIncorrectDeckQuestion.question = {...incorrectQuestions[currentIncorrectDeckQuestion.index]}
     loadErrorQuesion(currentIncorrectDeckQuestion.question);
     $('#errorQuestion').modal('show');
+  }
+});
+
+document.getElementById('questionButton').addEventListener('click', () => {
+  console.log(isGameActive);
+  console.log(questions);
+  if(isGameActive && questions.length !== 0){
+    $('#detailquestion').modal('show');
   }
 });
