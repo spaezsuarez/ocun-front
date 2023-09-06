@@ -45,7 +45,7 @@ function loadDetailQuesion(currentQuestion) {
               ${multipleOption}
         </div>`
         : `<div class="btn-group multiple-option-wrapper" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="btntrue" autocomplete="off" checked>
+          <input type="radio" class="btn-check" name="btnradio" id="btntrue" autocomplete="off">
           <label class="btn btn-outline-success" for="btntrue" onclick="setCurrentAnswer(event)">Verdadero</label>
           <input type="radio" class="btn-check" name="btnradio" id="btnfalse" autocomplete="off">
           <label class="btn btn-outline-danger" for="btnfalse" onclick="setCurrentAnswer(event)">Falso</label>
