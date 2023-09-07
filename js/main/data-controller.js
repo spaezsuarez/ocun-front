@@ -4,6 +4,8 @@ const infoBody = document.getElementById('info-body');
 const errorHeader = document.getElementById('error-header');
 const errorBody = document.getElementById('error-body');
 let currentAnswer;
+let multupleCurrentAnswer = new Set();
+let multipleErrorAnswers = new Set();
 let currentIncorrectAnswer;
 
 function loadPlayers() {
@@ -30,9 +32,52 @@ function setCurrentAnswer(event) {
     currentAnswer = event.target.innerText;
 }
 
+function setMultipleAnswer(event){
+    const isElementChecked = document.getElementById(`${event.target.getAttribute('for')}`).checked;
+    if(!isElementChecked){
+        multupleCurrentAnswer.add(event.target.innerText);
+    }else{
+        multupleCurrentAnswer.delete(event.target.innerText);
+    }
+}
+
+function getDetailQuestionForm(type,questionData){
+    let response = '';
+    let options = [];
+    let multipleOption = '';
+    switch(type){
+        case 'Verdadero Falso':
+            response = `<div class="btn-group multiple-option-wrapper" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btntrue" autocomplete="off">
+            <label class="btn btn-outline-success" for="btntrue" onclick="setCurrentAnswer(event)">Verdadero</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnfalse" autocomplete="off">
+            <label class="btn btn-outline-danger" for="btnfalse" onclick="setCurrentAnswer(event)">Falso</label>
+            </div>`;
+            return response;
+
+        case 'Opción múltiple':
+            options = questionData.options.split('\n');
+            for (let i = 0; i < options.length; i++)
+                multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio${i+1}" autocomplete="off">
+                <label class="btn btn-outline-success" onclick="setCurrentAnswer(event)" for="vbtn-radio${i+1}">${options[i]}</label>`;
+            response = `<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">${multipleOption}</div>`;
+            return response;
+
+        case 'Respuesta múltiple':
+            options = questionData.options.split('\n');
+            for (let i = 0; i < options.length; i++)
+                multipleOption += `<input type="checkbox" class="btn-check" id="btn-check${i+1}" autocomplete="off">
+                <label class="btn btn btn-outline-success" onclick="setMultipleAnswer(event)" for="btn-check${i+1}">${options[i]}</label>`;
+            response = `<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">${multipleOption}</div>`;
+            return response;
+
+    }
+    return response;
+}
+
 function loadDetailQuesion(currentQuestion) {
     console.log(currentQuestion);
-    const options = (currentQuestion.type !== 'Verdadero Falso') ? currentQuestion.options.split('\n') : [];
+    /*const options = (currentQuestion.type !== 'Verdadero Falso') ? currentQuestion.options.split('\n') : [];
     let multipleOption = '';
 
     for (let i = 0; i < options.length; i++) {
@@ -49,21 +94,64 @@ function loadDetailQuesion(currentQuestion) {
           <label class="btn btn-outline-success" for="btntrue" onclick="setCurrentAnswer(event)">Verdadero</label>
           <input type="radio" class="btn-check" name="btnradio" id="btnfalse" autocomplete="off">
           <label class="btn btn-outline-danger" for="btnfalse" onclick="setCurrentAnswer(event)">Falso</label>
-        </div>`;
+        </div>`;*/
 
     infoHeader.innerHTML = `<h1 class="modal-title fs-5" id="exampleModalLabel">${currentQuestion.clasification}: ${currentQuestion.subclasification} - ${currentQuestion.type}</h1>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
-    infoBody.innerHTML = `<p>${currentQuestion.question}</p> ${answerOptions}`;
-};
+    infoBody.innerHTML = `<p>${currentQuestion.question}</p> ${getDetailQuestionForm(currentQuestion.type,currentQuestion)}`;
+}
 
 function setCurrentIncorrectAnswer(event) {
     console.log('Entro a seleccionar respuesta de barajaa incorrecta')
     currentIncorrectAnswer = event.target.innerText;
 }
 
+function setMultipleErrorAnswer(event){
+    const isElementChecked = document.getElementById(`${event.target.getAttribute('for')}`).checked;
+    if(!isElementChecked){
+        multipleErrorAnswers.add(event.target.innerText);
+    }else{
+        multipleErrorAnswers.delete(event.target.innerText);
+    }
+}
+
+function getDetailQuestionErrorForm(type,questionData){
+    let response = '';
+    let options = [];
+    let multipleOption = '';
+    switch(type){
+        case 'Verdadero Falso':
+            response = `<div class="btn-group multiple-option-wrapper" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btntrue" autocomplete="off">
+            <label class="btn btn-outline-success" for="btntrue" onclick="setCurrentIncorrectAnswer(event)">Verdadero</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btnfalse" autocomplete="off">
+            <label class="btn btn-outline-danger" for="btnfalse" onclick="setCurrentIncorrectAnswer(event)">Falso</label>
+            </div>`;
+            return response;
+
+        case 'Opción múltiple':
+            options = questionData.options.split('\n');
+            for (let i = 0; i < options.length; i++)
+                multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio${i+1}" autocomplete="off">
+                <label class="btn btn-outline-success" onclick="setCurrentIncorrectAnswer(event)" for="vbtn-radio${i+1}">${options[i]}</label>`;
+            response = `<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">${multipleOption}</div>`;
+            return response;
+
+        case 'Respuesta múltiple':
+            options = questionData.options.split('\n');
+            for (let i = 0; i < options.length; i++)
+                multipleOption += `<input type="checkbox" class="btn-check" id="btn-check${i+1}" autocomplete="off">
+                <label class="btn btn btn-outline-success" onclick="setMultipleErrorAnswer(event)" for="btn-check${i+1}">${options[i]}</label>`;
+            response = `<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">${multipleOption}</div>`;
+            return response;
+
+    }
+    return response;
+}
+
 function loadErrorQuesion(errorQuestion) {
     console.log(errorQuestion);
-    const options = (errorQuestion.type !== 'Verdadero Falso') ? errorQuestion.options.split('\n') : [];
+    /*const options = (errorQuestion.type !== 'Verdadero Falso') ? errorQuestion.options.split('\n') : [];
     let multipleOption = '';
 
     for (let i = 0; i < options.length; i++) {
@@ -80,11 +168,11 @@ function loadErrorQuesion(errorQuestion) {
           <label class="btn btn-outline-success" for="errorbtntrue" onclick="setCurrentIncorrectAnswer(event)">Verdadero</label>
           <input type="radio" class="btn-check" name="btnradio" id="errorbtnfalse">
           <label class="btn btn-outline-danger" for="errorbtnfalse" onclick="setCurrentIncorrectAnswer(event)">Falso</label>
-        </div>`;
+        </div>`;*/
 
     errorHeader.innerHTML = `<h1 class="modal-title fs-5" id="exampleModalLabel">${errorQuestion.clasification}: ${errorQuestion.subclasification} - ${errorQuestion.type}</h1>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>`;
-    errorBody.innerHTML = `<p>${errorQuestion.question}</p> ${answerOptions}`;
+    errorBody.innerHTML = `<p>${errorQuestion.question}</p> ${getDetailQuestionErrorForm(errorQuestion.type,errorQuestion)}`;
 };
 
 window.addEventListener("load", async () => {

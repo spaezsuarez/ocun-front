@@ -3,6 +3,7 @@ const headers = {
 };
 
 async function get(endpoint) {
+  console.log(`${localStorage.getItem('server')}${endpoint}`);
   return await (
     await fetch(`${localStorage.getItem('server')}${endpoint}`, {
       method: "GET",

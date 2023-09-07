@@ -3,6 +3,7 @@ const btnStart = document.getElementById('btn-start');
 const btnSettings = document.getElementById('btn-settings');
 const btnsGroups = document.getElementsByClassName('btn-selection');
 const btnServerSettings = document.getElementById('btn-url');
+const btnRedirectTable = document.getElementById('btn-table');
 
 function saveSettings() {
     settings.team = document.getElementById('nameGroupInput').value;
@@ -126,4 +127,8 @@ btnServerSettings.addEventListener('click', () => {
     }
     localStorage.setItem('server', url);
     Swal.fire('Info', 'Información guardada de forma exitosa', 'success');
+});
+
+btnRedirectTable.addEventListener('click',() => {
+    window.location.replace("pages/scores.html");
 });

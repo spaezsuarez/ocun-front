@@ -22,7 +22,6 @@ let currentIncorrectDeckQuestion = {
   question: {}
 };
 let incorrectQuestions = [];
-let correctQuestions = [];
 let segundos = 180; // Tiempo inicial en segundos
 let intervalo; // Variable para almacenar el intervalo del cronómetro
 let questions = sessionStorage.getItem("questions") !== null ? JSON.parse(sessionStorage.getItem("questions")) : [];
@@ -35,15 +34,27 @@ function showTimeStamp() {
   document.getElementById("timer").innerText = formatoMinutos + ":" + formatoSegundos;
 }
 
-function changePlayer() {
+function updatePlayerScore(){
   players[currentPlayer.index].score = currentPlayer.player.score;
   players[currentPlayer.index].correctQuestions = currentPlayer.player.correctQuestions;
+  console.log(players);
+  console.log(currentPlayer);
+}
+
+function changePlayer() {
   if (currentPlayer.index === (players.length - 1)) {
     currentPlayer.index = 0;
   } else {
     currentPlayer.index += 1;
   }
-  currentPlayer.player = players[currentPlayer.index];
+  currentPlayer.player = {...players[currentPlayer.index]};
+}
+
+async function submitGameData(){
+  return await post('/scores',{
+    players,
+    settings
+  });
 }
 
 function updateDeck() {
@@ -75,6 +86,7 @@ function updateDeck() {
     $('#errorQuestion').modal('hide');
     isGameActive = false;
     isGameFinished = true;
+    submitGameData();
     alert('ACABO');
   }
 }
@@ -129,16 +141,22 @@ function startGame() {
   startTimer();
 }
 
-//Manejo de eventos
-document.addEventListener('DOMContentLoaded', () => {
-  loadData();
-  currentQuestion.question = { ...questions[0] };
-  currentQuestion.index = 0;
-  currentPlayer.index = 0;
-  currentPlayer.player = players[0];
-  loadDetailQuesion(currentQuestion.question);
-
-});
+function validateAnswer(realQuestion, selectedAnswer, multipleSelectedAnswers) {
+  if (realQuestion.type === 'Respuesta múltiple') {
+    let comparation = 0;
+    const options = realQuestion.answer.split('@');
+    multipleSelectedAnswers.forEach((element) => {
+      console.log(options);
+      console.log(element);
+      if(options.includes(element)){
+        comparation++;
+      }
+    });
+    return comparation === options.length;
+  } else {
+    return realQuestion.answer === selectedAnswer;
+  }
+}
 
 btnStart.addEventListener('click', (event) => {
   startGame();
@@ -147,35 +165,25 @@ btnStop.addEventListener('click', stopTimer);
 btnEndGame.addEventListener('click', endGame);
 btnPassTurn.addEventListener('click', () => {
   changePlayer();
+  updatePlayerScore();
   restartTimer();
   updateCurrentLabelPlayer();
   updateDeck();
 });
 
-function validateAnswer(realQuestion, selectedAnswer) {
-  console.log(realQuestion.answer);
-  console.log(selectedAnswer);
-  if (realQuestion.type === 'Respuesta múltiple') {
-    const options = realQuestion.answer.split('@');
-    return options.includes(selectedAnswer);
-  } else {
-    console.log('Caso Normal');
-    return realQuestion.answer === selectedAnswer;
-  }
-}
-
 //Logica principal al oprimir reponder pregunta de la baraja principal
 btnRespondAnswer.addEventListener('click', () => {
   if (isGameActive) {
-    console.log(questions.length);
-    console.log(incorrectQuestions.length);
-    if (validateAnswer(currentQuestion.question, currentAnswer)) {
+    //console.log(questions.length);
+    //console.log(incorrectQuestions.length);
+    if (validateAnswer(currentQuestion.question, currentAnswer, multupleCurrentAnswer)) {
       console.log('Correcto');
       currentPlayer.player.score = currentPlayer.player.score + (currentQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
       questions[currentQuestion.index].game_data.isCorrectAnswered = true;
       currentQuestion.index += 1;
       currentQuestion.question = { ...questions[currentQuestion.index] };
+      updatePlayerScore();
       updateDeck();
       if (questions.length !== 0) {
         loadDetailQuesion(currentQuestion.question);
@@ -193,6 +201,7 @@ btnRespondAnswer.addEventListener('click', () => {
       currentQuestion.question = { ...questions[currentQuestion.index] };
       //currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       $('#detailquestion').modal('hide');
+      updatePlayerScore();
       updateDeck();
       changeShift();
       loadDetailQuesion(currentQuestion.question);
@@ -208,7 +217,7 @@ btnRespondAnswer.addEventListener('click', () => {
 btnRespondErrorAnswer.addEventListener('click', () => {
   if (isGameActive) {
     //TODO: Tener en cuenta tipo para comparar mpas de una posible respuesta
-    if (validateAnswer(currentIncorrectDeckQuestion.question, currentIncorrectAnswer)) {
+    if (validateAnswer(currentIncorrectDeckQuestion.question, currentIncorrectAnswer, multipleErrorAnswers)) {
       console.log('Correcto 2');
       currentPlayer.player.score = currentPlayer.player.score + (currentIncorrectDeckQuestion.question.difficulty * 100);
       currentPlayer.player.correctQuestions += 1;
@@ -219,6 +228,7 @@ btnRespondErrorAnswer.addEventListener('click', () => {
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       if (currentIncorrectDeckQuestion.question !== undefined) {
         currentIncorrectDeckQuestion.index = 0;
+        updatePlayerScore();
         updateDeck();
         loadErrorQuesion(currentIncorrectDeckQuestion.question);
       } else {
@@ -234,6 +244,7 @@ btnRespondErrorAnswer.addEventListener('click', () => {
       currentIncorrectDeckQuestion.index += 1;
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
       $('#errorQuestion').modal('hide');
+      updatePlayerScore();
       updateDeck();
       changeShift();
     }
@@ -258,4 +269,14 @@ document.getElementById('questionButton').addEventListener('click', () => {
   if (isGameActive && questions.length !== 0) {
     $('#detailquestion').modal('show');
   }
+});
+
+//Manejo de eventos
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  currentQuestion.question = { ...questions[0] };
+  currentQuestion.index = 0;
+  currentPlayer.index = 0;
+  currentPlayer.player = {...players[0]};
+  loadDetailQuesion(currentQuestion.question);
 });
