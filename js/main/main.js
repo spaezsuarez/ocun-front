@@ -1,7 +1,6 @@
 //HTML elements
 const btnEndGame = document.getElementById('btn-end-game');
 const btnStart = document.getElementById("boton-beginning");
-const btnStop = document.getElementById("boton-finish");
 const btnRestart = document.getElementById("btnRestartGame");
 const btnRespondAnswer = document.getElementById('btnRespondAnswer');
 const btnRespondErrorAnswer = document.getElementById('btnRespondErrorAnswer');
@@ -169,7 +168,6 @@ function validateAnswer(realQuestion, selectedAnswer, multipleSelectedAnswers) {
 btnStart.addEventListener('click', (event) => {
   startGame();
 });
-btnStop.addEventListener('click', stopTimer);
 btnEndGame.addEventListener('click', endGame);
 btnPassTurn.addEventListener('click', () => {
   changePlayer();
