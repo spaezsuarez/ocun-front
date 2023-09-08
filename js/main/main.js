@@ -94,7 +94,7 @@ function updateDeck() {
       showConfirmButton: false,
       timer: 1500
     });
-    window.location.replace("pages/scores.html");
+    window.location.replace("scores.html");
   }
 }
 
@@ -212,6 +212,7 @@ btnRespondAnswer.addEventListener('click', () => {
       updateDeck();
       changeShift();
       loadDetailQuesion(currentQuestion.question);
+      //loadErrorQuesion(currentIncorrectDeckQuestion.question);
       restartTimer();
     }
   } else {
@@ -223,7 +224,6 @@ btnRespondAnswer.addEventListener('click', () => {
 //Logica para responder pregunta en la baraja de preguntas incorrectas
 btnRespondErrorAnswer.addEventListener('click', () => {
   if (isGameActive) {
-    //TODO: Tener en cuenta tipo para comparar mpas de una posible respuesta
     if (validateAnswer(currentIncorrectDeckQuestion.question, currentIncorrectAnswer, multipleErrorAnswers)) {
       console.log('Correcto 2');
       currentPlayer.player.score = currentPlayer.player.score + (currentIncorrectDeckQuestion.question.difficulty * 100);

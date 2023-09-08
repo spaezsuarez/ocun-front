@@ -102,7 +102,8 @@ function loadDetailQuesion(currentQuestion) {
 }
 
 function setCurrentIncorrectAnswer(event) {
-    console.log('Entro a seleccionar respuesta de barajaa incorrecta')
+    console.log('Entro a seleccionar respuesta de barajaa incorrecta');
+    console.log(currentIncorrectAnswer);
     currentIncorrectAnswer = event.target.innerText;
 }
 
@@ -122,26 +123,26 @@ function getDetailQuestionErrorForm(type,questionData){
     switch(type){
         case 'Verdadero Falso':
             response = `<div class="btn-group multiple-option-wrapper" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="btntrue" autocomplete="off">
-            <label class="btn btn-outline-success" for="btntrue" onclick="setCurrentIncorrectAnswer(event)">Verdadero</label>
-            <input type="radio" class="btn-check" name="btnradio" id="btnfalse" autocomplete="off">
-            <label class="btn btn-outline-danger" for="btnfalse" onclick="setCurrentIncorrectAnswer(event)">Falso</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btn-error-true" autocomplete="off">
+            <label class="btn btn-outline-success" for="btn-error-true" onclick="setCurrentIncorrectAnswer(event)">Verdadero</label>
+            <input type="radio" class="btn-check" name="btnradio" id="btn-error-false" autocomplete="off">
+            <label class="btn btn-outline-danger" for="btn-error-false" onclick="setCurrentIncorrectAnswer(event)">Falso</label>
             </div>`;
             return response;
 
         case 'Opción múltiple':
             options = questionData.options.split('\n');
             for (let i = 0; i < options.length; i++)
-                multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio${i+1}" autocomplete="off">
-                <label class="btn btn-outline-success" onclick="setCurrentIncorrectAnswer(event)" for="vbtn-radio${i+1}">${options[i]}</label>`;
+                multipleOption += `<input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-error-radio${i+1}" autocomplete="off">
+                <label class="btn btn-outline-success" onclick="setCurrentIncorrectAnswer(event)" for="vbtn-error-radio${i+1}">${options[i]}</label>`;
             response = `<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">${multipleOption}</div>`;
             return response;
 
         case 'Respuesta múltiple':
             options = questionData.options.split('\n');
             for (let i = 0; i < options.length; i++)
-                multipleOption += `<input type="checkbox" class="btn-check" id="btn-check${i+1}" autocomplete="off">
-                <label class="btn btn btn-outline-success" onclick="setMultipleErrorAnswer(event)" for="btn-check${i+1}">${options[i]}</label>`;
+                multipleOption += `<input type="checkbox" class="btn-check" id="btn-error-check${i+1}" autocomplete="off">
+                <label class="btn btn btn-outline-success" onclick="setMultipleErrorAnswer(event)" for="btn-error-check${i+1}">${options[i]}</label>`;
             response = `<div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">${multipleOption}</div>`;
             return response;
 
