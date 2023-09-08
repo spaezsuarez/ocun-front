@@ -37,8 +37,6 @@ function showTimeStamp() {
 function updatePlayerScore(){
   players[currentPlayer.index].score = currentPlayer.player.score;
   players[currentPlayer.index].correctQuestions = currentPlayer.player.correctQuestions;
-  console.log(players);
-  console.log(currentPlayer);
 }
 
 function changePlayer() {
@@ -139,6 +137,7 @@ function restartTimer() {
 function updateCurrentLabelPlayer() {
   document.getElementById('jugador-actual').innerText = currentPlayer.player.name;
   document.getElementById('puntaje-actual').innerText = currentPlayer.player.score;
+  document.getElementById(`label-player-${currentPlayer.index+1}-score`).innerText = currentPlayer.player.score;
 }
 
 function startGame() {

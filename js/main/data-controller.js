@@ -18,11 +18,11 @@ function loadPlayers() {
         return;
     }
     for (let index = 0; index < settings.members; index++) {
-        const id = `label-player-${index + 1}`;
+        const id = `label-player-${index+1}`;
         htmlPlayerLabel += `
         <div class="player">
             <div id="${id}">${players[index].name}</div>
-            <div class="score">0</div>
+            <div id="${id}-score"class="score">0</div>
         </div>`;
     }
     playersContainer[0].innerHTML = htmlPlayerLabel;
