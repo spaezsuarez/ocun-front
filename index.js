@@ -108,6 +108,9 @@ btnStart.addEventListener('click', async () => {
     if (questions === null) {
         Swal.fire('Error', 'No hay conexion con el servidor o no se encuentra configurado', 'error');
         return;
+    }else if(questions.length === 0){
+        Swal.fire('Error', 'Hubo un error en la consulta de preguntas', 'error');
+        return;
     }
     saveGameData(cleanBooleanValues(questions));
     window.location.replace("pages/main.html");
