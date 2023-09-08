@@ -93,7 +93,7 @@ function updateDeck() {
     });
     setTimeout(() => {
       endGame();
-      window.location.replace("scores.html");
+      window.location.replace(String(window.location).replace('pages/main.html', 'pages/scores.html'));
     },2000);
   }
 }
@@ -202,7 +202,6 @@ btnRespondAnswer.addEventListener('click', () => {
       }
       updateCurrentLabelPlayer();
     } else {
-      console.log('Incorrecto');
       let tempScorePlayer = currentPlayer.player.score - (currentQuestion.question.difficulty * 100);
       currentPlayer.player.score = (tempScorePlayer < 0) ? 0 : tempScorePlayer;
       questions[currentQuestion.index].difficulty /= 2;
@@ -210,6 +209,12 @@ btnRespondAnswer.addEventListener('click', () => {
       currentQuestion.index += 1;
       currentQuestion.question = { ...questions[currentQuestion.index] };
       //currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
+      Swal.fire({
+        icon: 'error',
+        title: 'Incorrecto: cambio de turno',
+        showConfirmButton: false,
+        timer: 1000
+      });
       $('#detailquestion').modal('hide');
       updatePlayerScore();
       updateDeck();
@@ -253,6 +258,12 @@ btnRespondErrorAnswer.addEventListener('click', () => {
       currentIncorrectDeckQuestion.question.game_data.needToBeDeleted = true;
       currentIncorrectDeckQuestion.index += 1;
       currentIncorrectDeckQuestion.question = incorrectQuestions[currentIncorrectDeckQuestion.index];
+      Swal.fire({
+        icon: 'error',
+        title: 'Incorrecto: cambio de turno',
+        showConfirmButton: false,
+        timer: 1000
+      });
       $('#errorQuestion').modal('hide');
       updatePlayerScore();
       updateDeck();
@@ -274,8 +285,6 @@ document.getElementById('incorrectAnswerButton').addEventListener('click', () =>
 });
 
 document.getElementById('questionButton').addEventListener('click', () => {
-  console.log(isGameActive);
-  console.log(questions);
   if (isGameActive && questions.length !== 0) {
     $('#detailquestion').modal('show');
   }

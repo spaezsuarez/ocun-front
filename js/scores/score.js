@@ -25,3 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     tableBody.innerHTML = htmlBody;
 });
+
+document.getElementById('btnHome').addEventListener('click',() => {
+    window.location.replace(String(window.location).replace('pages/scores.html', 'index.html'));
+});
