@@ -87,7 +87,14 @@ function updateDeck() {
     isGameActive = false;
     isGameFinished = true;
     submitGameData();
-    alert('ACABO');
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Felicidades acabaste la partida',
+      showConfirmButton: false,
+      timer: 1500
+    });
+    window.location.replace("pages/scores.html");
   }
 }
 
