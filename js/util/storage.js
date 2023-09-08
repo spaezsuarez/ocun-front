@@ -22,5 +22,4 @@ function loadData() {
 
 function endGame() {
   sessionStorage.clear();
-  window.location.replace(String(window.location).replace('pages/main.html', 'index.html'));
 }

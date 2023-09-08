@@ -92,6 +92,7 @@ function updateDeck() {
       timer: 1500
     });
     setTimeout(() => {
+      endGame();
       window.location.replace("scores.html");
     },2000);
   }
@@ -168,7 +169,10 @@ function validateAnswer(realQuestion, selectedAnswer, multipleSelectedAnswers) {
 btnStart.addEventListener('click', (event) => {
   startGame();
 });
-btnEndGame.addEventListener('click', endGame);
+btnEndGame.addEventListener('click', () => {
+  endGame();
+  window.location.replace(String(window.location).replace('pages/main.html', 'index.html'));
+});
 btnPassTurn.addEventListener('click', () => {
   changePlayer();
   updatePlayerScore();
