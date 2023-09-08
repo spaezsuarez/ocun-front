@@ -92,7 +92,9 @@ function updateDeck() {
       showConfirmButton: false,
       timer: 1500
     });
-    window.location.replace("scores.html");
+    setTimeout(() => {
+      window.location.replace("scores.html");
+    },2000);
   }
 }
 
