@@ -6,21 +6,68 @@ body {
 }
 
 .main-wrapper {
-    padding-top: 50px;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);
-    padding: 20% 30%;
+    /*background: linear-gradient(to top left, #F9C74F 0%, #43AA8B 100%);*/
+    background-image: url("../img/beer.png");
+    background-position: bottom right;
+
+}
+
+.blur-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255 255 255 / 0.3);
+    backdrop-filter: blur(10px);
+    padding: 10% 30%;
     overflow: auto;
     display: flex;
     justify-content: center;
     align-content: center;
-    border: 1px solid purple;
 }
 
-.general_table{
+.general_table {
+    border: 1px solid black;
+}
+
+.score_table_index {
+    width: 10%;
+    height: 10%;
+}
+
+.score_table_column {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.score_table_team {
+    width: 10%;
+}
+
+.score_table_type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.score_table_type * {
+    align-self: center;
+}
+
+.icon_table_beer{
+    width: 10%;
+    height: auto;
+}
+
+.top-nav-buttons {
     width: 70%;
-    height: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 #top-nav {
@@ -32,11 +79,27 @@ body {
     border-bottom: 1px solid black;
     width: 100%;
     height: 15%;
+    /*background: #916E40;*/
+    background-color: #801E09;
 }
 
-.top-nav-buttons{
-    width: 70%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+#top-nav h1 {
+    color: white;
 }
+
+#top-nav button {
+    color: white;
+    background-color: #DA7E29;
+    width: 10%;
+    height: 50%;
+    font-size: 30px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    transition: 500ms;
+}
+
+#top-nav button :hover {
+    transform: scale(1.1);
+}
+

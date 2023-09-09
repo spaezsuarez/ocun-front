@@ -8,6 +8,14 @@ function getTextPlayers(players){
     return response;
 }
 
+function getTypeIcon(type){
+    if(type === 'Avanzado'){
+        return '<img src="../img/beer-table.svg" class="icon_table_beer">';
+    }else if(type === 'Amateur'){
+        return '<img src="../img/beer-table-amateur.svg" class="icon_table_beer">';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     if(localStorage.getItem('server') === undefined){
         Swal.fire('Error', 'Dirección del servidor nulo', 'error');
@@ -17,10 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let htmlBody = ``;
     for(let i = 0; i < response.length; i++){
         htmlBody += `<tr>
-        <th scope="row">${i+1}</th>
-        <td>${response[i].team}</td>
-        <td>${response[i].type}</td>
-        <td>${getTextPlayers(response[i].players)}</td>
+        <th scope="row"><p>${i+1}</p></th>
+        <td><p>${response[i].team}</p></td>
+        <td><p class='score_table_type'>${response[i].type}:${getTypeIcon(response[i].type)}</p></td>
+        <td><p class='score_table_column'>${getTextPlayers(response[i].players)}</p></td>
       </tr>`;
     }
     tableBody.innerHTML = htmlBody;

@@ -219,8 +219,9 @@ btnRespondAnswer.addEventListener('click', () => {
       updatePlayerScore();
       updateDeck();
       changeShift();
-      loadDetailQuesion(currentQuestion.question);
-      //loadErrorQuesion(currentIncorrectDeckQuestion.question);
+      if(currentQuestion.question !== undefined){
+        loadDetailQuesion(currentQuestion.question);
+      }
       restartTimer();
     }
   } else {

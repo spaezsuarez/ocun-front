@@ -123,11 +123,12 @@ btnSettings.addEventListener('click', () => {
 });
 
 btnServerSettings.addEventListener('click', () => {
-    const url = String(document.getElementById('serverInput').value);
+    let url = String(document.getElementById('serverInput').value);
     if(url === '' || url === null || url === undefined){
         Swal.fire('Error', 'La dirección no puede ser vacia', 'error');
         return;
     }
+    url = (url.charAt(url.length-1) === '/') ? url.substring(0,url.length-2) : url;
     localStorage.setItem('server', url);
     Swal.fire('Info', 'Información guardada de forma exitosa', 'success');
 });
